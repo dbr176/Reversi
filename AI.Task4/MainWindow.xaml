@@ -93,7 +93,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="6*"/>
             <RowDefinition Height="100*"/>
-            <RowDefinition Height="6*"/>
+            <RowDefinition Height="30px"/>
         </Grid.RowDefinitions>
         <Border x:Name="border" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Row="1">
             <Grid x:Name="mainGrid" Margin="0,0,0,0" 
@@ -206,10 +206,19 @@
             </Grid>
         </Border>
 
-        <StackPanel Grid.Row="2" Orientation="Horizontal">
-            <Label x:Name="whitesLabel"/>
-            <Label x:Name="blacksLabel"/>
-        </StackPanel>
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1.5*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1.5*"/>
+            </Grid.ColumnDefinitions>
+            <Label x:Name="whitesLabel" Grid.Column="0" FontSize="18" FontWeight="Bold" HorizontalAlignment="Right"/>
+            <Label Grid.Column="1" FontSize="18" FontWeight="Bold" HorizontalAlignment="Right" Content="Белые"/>
+            <Label Grid.Column="3" FontSize="18" FontWeight="Bold" Content="Чёрные"/>
+            <Label x:Name="blacksLabel" Grid.Column="4" FontSize="18" FontWeight="Bold"/>
+        </Grid>
     </Grid>
 
 </Window>
