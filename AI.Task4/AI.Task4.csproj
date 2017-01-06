@@ -57,20 +57,29 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="UIChecker.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Compile Include="AIEnemy.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="BitBoard8x8.cs" />
+    <Compile Include="BoardCell.cs" />
+    <Compile Include="BoardNode.cs" />
+    <Compile Include="Checker.cs" />
+    <Compile Include="CheckerBoard.cs" />
+    <Compile Include="EmptyCell.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MinMaxIDS.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -99,6 +108,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="chckeropacity.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MinMaxTree\MinMaxTree.csproj">
+      <Project>{2ccd23fe-d83a-4bd2-a675-66c2763e6877}</Project>
+      <Name>MinMaxTree</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
