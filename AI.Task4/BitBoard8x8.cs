@@ -24,7 +24,11 @@ namespace AI.Task4
         {
             var s = $"";
             for (var i = 0; i < 8; i++)
-                s += $"{this[0,i]} {this[1, i]} {this[2, i]} {this[3, i]} {this[4, i]} {this[5, i]} {this[6, i]} {this[7, i]}\n";
+            {
+                for (var j = 0; j < 8; j++)
+                    s += $"{this[j, i]} ";
+                s += "\n";
+            }
             return s;
         }
 
@@ -88,14 +92,14 @@ namespace AI.Task4
             var bb = Copy(ref this);
 
             var l = new LinkedList<IntPoint>();
-            AvDirections(p, isBlack, out l);
+            AvailableDirections(p, isBlack, out l);
             foreach (var d in l)
                 bb.SetLine(isBlack, p.X, p.Y, d.X, d.Y);
             bb[p.X, p.Y] = (sbyte)(isBlack ? 1 : -1);
             return bb;
         }
 
-        public bool AvDirections(IntPoint p, bool forBlack, out LinkedList<IntPoint> d)
+        public bool AvailableDirections(IntPoint p, bool forBlack, out LinkedList<IntPoint> d)
         {
             var r = p.X;
             var c = p.Y;
@@ -121,11 +125,9 @@ namespace AI.Task4
 
         public IEnumerable<IntPoint> AvailableTurns(bool forBlack)
         {
-            LinkedList<IntPoint> a;
-
             for (var i = 0; i < 8; i++)
                 for (var j = 0; j < 8; j++)
-                    if (this[i,j] == 0 && AvDirections(new IntPoint(i, j), forBlack, out a))
+                    if (this[i, j] == 0 && AvailableDirections(new IntPoint(i, j), forBlack, out LinkedList<IntPoint> a))
                         yield return new IntPoint(i, j);
         }
 
@@ -156,6 +158,13 @@ namespace AI.Task4
                     if (a[i, j] != b[i, j]) return false;
             return true;
         }
+
+        public override bool Equals(object obj)
+            => obj is BitBoard8x8 b && b == this;
+
+        public override int GetHashCode()
+            => board.Aggregate(0, (s, x) => s ^ x * s);
+        
 
         public static bool operator != (BitBoard8x8 a, BitBoard8x8 b) => !(a == b);
     }

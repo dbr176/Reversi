@@ -16,6 +16,11 @@ namespace AI.Task4
     {
         private const int GameSize = 8;
 
+        private void GenerateBoard()
+        {
+
+        }
+
         public CheckerBoard Board { get; set; } = new CheckerBoard(GameSize, GameSize);
         LinkedList<UIChecker> _checkers = new LinkedList<UIChecker>();
 
@@ -54,25 +59,61 @@ namespace AI.Task4
             return true;
         }
 
-        AIEnemy _enemy;
-        public MainWindow()
+        private void InitBoard()
         {
-            InitializeComponent();
+            for(var i = 0; i < GameSize; i++)
+            {
+                var column = new ColumnDefinition();
+                column.Width = new GridLength(64, GridUnitType.Star);
+                mainGrid.ColumnDefinitions.Add(column);
 
-            for (var x = 0; x < GameSize; x++)
-                for (var y = 0; y < GameSize; y++)
-                    Board[x, y] = new EmptyCell();
+                var row = new RowDefinition();
+                row.Height = new GridLength(64, GridUnitType.Star);
+                mainGrid.RowDefinitions.Add(row);
+            }
 
+            for(var x = 0; x < GameSize; x++)
+                for(var y = 0; y < GameSize; y++)
+                {
+                    var cell = new System.Windows.Shapes.Rectangle();
+                    mainGrid.Children.Add(cell);
+                    Grid.SetColumn(cell, y);
+                    Grid.SetRow(cell, x);
+                    cell.Style = ((x % 2 == y % 2) ? Resources["BlackCell"] : Resources["WhiteCell"]) as Style;
+                }
+            
+        }
+
+        private void InitCheckers()
+        {
             Create(3, 4, true);
             Create(4, 3, true);
 
             Create(3, 3, false);
             Create(4, 4, false);
+        }
 
+        private void InitEnemy()
+        {
             _enemy = new AIEnemy();
             _enemy.Eval = (x) => 0;
             _enemy.IsBlack = false;
             _enemy.Root = new BoardNode(Board.ToBitBoard(), true, true);
+        }
+
+        AIEnemy _enemy;
+        public MainWindow()
+        {
+            InitializeComponent();
+
+            InitBoard();
+
+            for (var x = 0; x < GameSize; x++)
+                for (var y = 0; y < GameSize; y++)
+                    Board[x, y] = new EmptyCell();
+
+            InitCheckers();
+            InitEnemy();
         }
 
         private async void Rectangle_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
