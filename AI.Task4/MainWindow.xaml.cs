@@ -116,27 +116,23 @@ namespace AI.Task4
             InitEnemy();
         }
 
-        private async void Rectangle_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        private bool PlayerStep(int c, int r)
         {
-            var obj = sender as UIElement;
+            var avTurns = Board.AvailableTurns(_isBlackStep);
 
-            if (obj == null) return;
-
-            var c = Grid.GetColumn(obj);
-            var r = Grid.GetRow(obj);
-
-            var b = Board.AvailableTurns(_isBlackStep);
-
-            if (b.Count() != 0)
+            if (avTurns.Count() != 0)
             {
                 if (MakeStep(_isBlackStep, r, c))
                     _isBlackStep = !_isBlackStep;
-                else return;
+                else return false;
             }
             else _isBlackStep = !_isBlackStep;
 
-            await Task.Delay(100);
+            return true;
+        }
 
+        private void AIStep(int c, int r)
+        {
             _enemy.UpdatePos(Board.ToBitBoard());
             var tp = _enemy.ChooseNext();
 
@@ -150,6 +146,22 @@ namespace AI.Task4
             }
             _isBlackStep = !_isBlackStep;
             _enemy.UpdatePos(Board.ToBitBoard());
+        }
+
+        private async void Rectangle_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            var obj = sender as UIElement;
+
+            if (obj == null) return;
+
+            var c = Grid.GetColumn(obj);
+            var r = Grid.GetRow(obj);
+
+            if (!PlayerStep(c, r)) return;
+
+            await Task.Delay(100);
+
+            AIStep(c, r);
 
             await Task.Delay(100);
 
